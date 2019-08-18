@@ -1,3 +1,5 @@
+import {loadAssets} from "./assets.js"
+
 /** @type {HTMLCanvasElement} */
 const canvas = document.querySelector('canvas.main-canvas')
 /** Drawing Context */
@@ -21,6 +23,8 @@ const velocity = {
 	x:0, y:0
 }
 let prevT = Date.now()
+
+let tiles = []
 
 /** Handles initial canvas sizing, and all resizing thereafter */
 function resize() {
@@ -63,12 +67,13 @@ function handleKeyUp(e) {
 } 
 
 /** Call this once on application startup */
-function initApp() {
+async function initApp() {
 	// Listen for window resize events
 	window.addEventListener('resize', resize)
 	window.addEventListener('keydown', handleKeyDown)
 	window.addEventListener('keyup', handleKeyUp)
-	resize()
+	//resize()
+	tiles = await loadAssets()
 }
 
 /** Render the scene */
@@ -83,6 +88,13 @@ function render() {
 	context.save()
 	context.translate(viewport.width / 2, viewport.height / 2)
 	context.scale(viewport.width / SCALE, -viewport.width / SCALE)
+	for(let y = -10; y < 20; y++){
+		for(let x = -10; x < 20; x++){
+		
+			context.drawImage(tiles[1], x, y, 1, 1)
+		}
+	}
+	
 
 	// Draw a circle
 	context.beginPath()
@@ -92,8 +104,6 @@ function render() {
 
 	context.restore()
 }
-
-initApp()
 
 //start animation loop
 function update() {
@@ -111,4 +121,8 @@ function update() {
 	requestAnimationFrame(update)
 }
 
-requestAnimationFrame(update)
+initApp().then(() => {
+	resize()
+	console.log('Starting animation loop')
+	requestAnimationFrame(update)
+})
