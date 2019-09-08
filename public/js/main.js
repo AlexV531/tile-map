@@ -26,6 +26,7 @@ const velocity = {
 let prevT = Date.now()
 
 let tileMap
+let spriteSheet
 
 /** Handles initial canvas sizing, and all resizing thereafter */
 function resize() {
@@ -76,6 +77,7 @@ async function initApp() {
 	//resize()
 	const assets = await loadAssets()
 	tileMap = new TileMap(1, assets.maps[0], assets.images)
+	spriteSheet = assets.spriteSheet
 }
 
 /** Render the scene */
@@ -95,10 +97,14 @@ function render() {
 	tileMap.render(context)
 
 	// Draw a circle
-	context.beginPath()
-	context.fillStyle = '#000066'
-	context.arc(position.x, position.y, CIRCLE_RADIUS, 0, Math.PI * 2)
-	context.fill()
+	// context.beginPath()
+	// context.fillStyle = '#000066'
+	// context.arc(position.x, position.y, CIRCLE_RADIUS, 0, Math.PI * 2)
+	// context.fill()
+
+	// Draw the player
+	//context.drawImage(spriteSheet, position.x, position.y, 5, 5)
+	context.drawImage(spriteSheet, 0, 0, 80, 100, position.x, position.y, 1, 1.25)
 
 	context.restore()
 }

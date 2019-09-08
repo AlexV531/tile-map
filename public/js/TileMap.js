@@ -9,7 +9,9 @@ export default class TileMap {
     render(context){
         for(let y = 0; y < this.map.rows; y++){
             for(let x = 0; x < this.map.cols; x++){
-                const tileID = this.map.data[x+y*this.map.rows]
+                // Multi dimentional example:
+                // const tileID = this.map.data[y][x]
+                const tileID = this.map.data[x+y*this.map.rows] 
                 context.drawImage(
                     this.images[tileID], x, y, this.tileSize, this.tileSize
                 )
