@@ -1,17 +1,17 @@
 export default class TileMap {
 
-    constructor(tileSize, mapSize, images){
+    constructor(tileSize, map, images){
         this.tileSize = tileSize
-        this.mapSize = {width:mapSize.width, height:mapSize.height}
+        this.map = map
         this.images = images
     }
 
     render(context){
-        for(let y = -10; y < 20; y++){
-            for(let x = -10; x < 20; x++){
-            
+        for(let y = 0; y < this.map.rows; y++){
+            for(let x = 0; x < this.map.cols; x++){
+                const tileID = this.map.data[x+y*this.map.rows]
                 context.drawImage(
-                    this.images[1], x, y, this.tileSize, this.tileSize
+                    this.images[tileID], x, y, this.tileSize, this.tileSize
                 )
             }
         }

@@ -11,14 +11,14 @@ const viewport = {
 }
 
 /** Scene scaling */
-const SCALE = 10.0
+const SCALE = 0.1
 /** Background */
 const BG_COLOR = '#FFFF00'
 /** Radius of circle */
 const CIRCLE_RADIUS = 1.0
 const SPEED = 2 
 const position = {
-	x:0, y:0
+	x:15, y:15
 }
 const velocity = {
 	x:0, y:0
@@ -74,8 +74,8 @@ async function initApp() {
 	window.addEventListener('keydown', handleKeyDown)
 	window.addEventListener('keyup', handleKeyUp)
 	//resize()
-	const tiles = await loadAssets()
-	tileMap = new TileMap(1, {width:16, height:10}, tiles)
+	const assets = await loadAssets()
+	tileMap = new TileMap(1, assets.maps[0], assets.images)
 }
 
 /** Render the scene */
@@ -89,7 +89,9 @@ function render() {
 	// at the centre of the screen, and Y axis up.
 	context.save()
 	context.translate(viewport.width / 2, viewport.height / 2)
-	context.scale(viewport.width / SCALE, -viewport.width / SCALE)
+	context.scale(viewport.width * SCALE, -viewport.width * SCALE)
+	// Move camera with player
+	context.translate(-position.x, -position.y)
 	tileMap.render(context)
 
 	// Draw a circle
