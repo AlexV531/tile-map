@@ -21,3 +21,8 @@ function loadImage(url) {
         image.src = url
     })
 }
+
+var tiles = `
+00000000000000
+00111000000000
+`

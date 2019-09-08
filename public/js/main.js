@@ -1,4 +1,5 @@
 import {loadAssets} from "./assets.js"
+import TileMap from "./TileMap.js"
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.querySelector('canvas.main-canvas')
@@ -24,7 +25,7 @@ const velocity = {
 }
 let prevT = Date.now()
 
-let tiles = []
+let tileMap
 
 /** Handles initial canvas sizing, and all resizing thereafter */
 function resize() {
@@ -73,7 +74,8 @@ async function initApp() {
 	window.addEventListener('keydown', handleKeyDown)
 	window.addEventListener('keyup', handleKeyUp)
 	//resize()
-	tiles = await loadAssets()
+	const tiles = await loadAssets()
+	tileMap = new TileMap(1, {width:16, height:10}, tiles)
 }
 
 /** Render the scene */
@@ -88,13 +90,7 @@ function render() {
 	context.save()
 	context.translate(viewport.width / 2, viewport.height / 2)
 	context.scale(viewport.width / SCALE, -viewport.width / SCALE)
-	for(let y = -10; y < 20; y++){
-		for(let x = -10; x < 20; x++){
-		
-			context.drawImage(tiles[1], x, y, 1, 1)
-		}
-	}
-	
+	tileMap.render(context)
 
 	// Draw a circle
 	context.beginPath()
