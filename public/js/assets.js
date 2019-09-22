@@ -9,7 +9,7 @@ export async function loadAssets() {
     const images = await Promise.all(
         imageList.map(loadImage)
     )
-    const spriteSheet = await loadImage("img/sprites/character01.png")
+    const spriteSheet = await loadImage("img/sprites/character-flipped.png")
     return {
         images, maps:[parseMap(map01)], spriteSheet
     }

@@ -1,4 +1,5 @@
 const SPEED = 2 
+const FRAME = {width:80, height:100}
 
 export default class Player {
 
@@ -29,16 +30,32 @@ export default class Player {
             this.velocity.y = 0
         }
         const fT = deltaT/1000
+        
+
 	    this.position.x += this.velocity.x * fT
 	    this.position.y += this.velocity.y * fT
         this.time += deltaT
+
     }
 
     render(context){
+        let animationRow = 3
+        let animationCell = 1
+        if(this.velocity.x > 0){
+            animationRow = 2
+        } else if(this.velocity.x < 0){
+            animationRow = 1
+        } else if(this.velocity.y > 0){
+            animationRow = 0
+        } else if(this.velocity.y < 0){
+            animationRow = 3
+        }
         context.drawImage(
-            this.image, 0, 0, 80, 100, 
-            this.position.x, this.position.y, 1, 1.25
+            this.image, animationCell*FRAME.width, animationRow*FRAME.height, FRAME.width, FRAME.height, 
+            this.position.x, this.position.y, 1, FRAME.height/FRAME.width
         )
     }
+
+
 
 }
