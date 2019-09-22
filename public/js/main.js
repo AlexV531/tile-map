@@ -1,5 +1,6 @@
 import {loadAssets} from "./assets.js"
 import TileMap from "./TileMap.js"
+import Player from "./Player.js"
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.querySelector('canvas.main-canvas')
@@ -14,19 +15,11 @@ const viewport = {
 const SCALE = 0.1
 /** Background */
 const BG_COLOR = '#FFFF00'
-/** Radius of circle */
-const CIRCLE_RADIUS = 1.0
-const SPEED = 2 
-const position = {
-	x:15, y:15
-}
-const velocity = {
-	x:0, y:0
-}
 let prevT = Date.now()
 
 let tileMap
 let spriteSheet
+let player
 
 /** Handles initial canvas sizing, and all resizing thereafter */
 function resize() {
@@ -42,13 +35,13 @@ function resize() {
 function handleKeyDown(e) {
 	const code = e.keyCode 
 	if(code === 38){
-		velocity.y = SPEED
+		player.inputs.up = 1
 	} else if (code === 40){
-		velocity.y = -SPEED
+		player.inputs.down = 1
 	} else if (code === 37){
-		velocity.x = -SPEED
+		player.inputs.left = 1
 	} else if (code === 39){
-		velocity.x = SPEED
+		player.inputs.right = 1
 	}
 
 } 
@@ -57,13 +50,13 @@ function handleKeyDown(e) {
 function handleKeyUp(e) {
 	const code = e.keyCode 
 	if(code === 38){
-		velocity.y = 0
+		player.inputs.up = 0
 	} else if (code === 40){
-		velocity.y = 0
+		player.inputs.down = 0
 	} else if (code === 37){
-		velocity.x = 0
+		player.inputs.left = 0
 	} else if (code === 39){
-		velocity.x = 0
+		player.inputs.right = 0
 	}
 
 } 
@@ -78,6 +71,7 @@ async function initApp() {
 	const assets = await loadAssets()
 	tileMap = new TileMap(1, assets.maps[0], assets.images)
 	spriteSheet = assets.spriteSheet
+	player = new Player(spriteSheet)
 }
 
 /** Render the scene */
@@ -93,18 +87,11 @@ function render() {
 	context.translate(viewport.width / 2, viewport.height / 2)
 	context.scale(viewport.width * SCALE, -viewport.width * SCALE)
 	// Move camera with player
-	context.translate(-position.x, -position.y)
+	context.translate(-player.position.x, -player.position.y)
 	tileMap.render(context)
 
-	// Draw a circle
-	// context.beginPath()
-	// context.fillStyle = '#000066'
-	// context.arc(position.x, position.y, CIRCLE_RADIUS, 0, Math.PI * 2)
-	// context.fill()
-
 	// Draw the player
-	//context.drawImage(spriteSheet, position.x, position.y, 5, 5)
-	context.drawImage(spriteSheet, 0, 0, 80, 100, position.x, position.y, 1, 1.25)
+	player.render(context)
 
 	context.restore()
 }
@@ -114,11 +101,8 @@ function update() {
 	const curT = Date.now()
 	const deltaT = curT - prevT
 	const fT = deltaT/1000
-	//position.x = position.x + fT * 1
-	//position.x = Math.tan(curT/1000)
-	//position.y = Math.sin(curT/1000) + Math.sin(curT/100)
-	position.x += velocity.x * fT
-	position.y += velocity.y * fT
+
+	player.update(deltaT)
 
 	prevT = curT
 	render()
