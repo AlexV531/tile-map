@@ -1,5 +1,6 @@
 const SPEED = 2 
-const FRAME = {width:80, height:100}
+const FRAME = {width:80, height:104}
+const NUMCELLS = 4
 
 export default class Player {
 
@@ -38,9 +39,11 @@ export default class Player {
 
     }
 
-    render(context){
+    render(context){ 
+        // Default resting cell
         let animationRow = 3
         let animationCell = 1
+        // If character is moving, select correct animation 
         if(this.velocity.x > 0){
             animationRow = 2
         } else if(this.velocity.x < 0){
@@ -49,6 +52,10 @@ export default class Player {
             animationRow = 0
         } else if(this.velocity.y < 0){
             animationRow = 3
+        }
+        if(this.velocity.x != 0 || this.velocity.y != 0){
+            // Compute animation cell when character is moving
+            animationCell = Math.floor(this.time / 250) % NUMCELLS
         }
         context.drawImage(
             this.image, animationCell*FRAME.width, animationRow*FRAME.height, FRAME.width, FRAME.height, 
