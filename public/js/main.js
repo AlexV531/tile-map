@@ -14,7 +14,7 @@ const viewport = {
 /** Scene scaling */
 const SCALE = 0.1
 /** Background */
-const BG_COLOR = '#FFFF00'
+const BG_COLOR = '#FFFF88'
 let prevT = Date.now()
 
 let tileMap
@@ -33,33 +33,33 @@ function resize() {
 
 /** @param {KeyboardEvent} e */
 function handleKeyDown(e) {
-	const code = e.keyCode 
-	if(code === 38){
+	const code = e.keyCode
+	if(code === 38) {
 		player.inputs.up = 1
-	} else if (code === 40){
+	} else if (code === 40) {
 		player.inputs.down = 1
-	} else if (code === 37){
+	} else if (code === 37) {
 		player.inputs.left = 1
-	} else if (code === 39){
+	} else if (code === 39) {
 		player.inputs.right = 1
 	}
 
-} 
+}
 
 /** @param {KeyboardEvent} e */
 function handleKeyUp(e) {
-	const code = e.keyCode 
-	if(code === 38){
+	const code = e.keyCode
+	if(code === 38) {
 		player.inputs.up = 0
-	} else if (code === 40){
+	} else if (code === 40) {
 		player.inputs.down = 0
-	} else if (code === 37){
+	} else if (code === 37) {
 		player.inputs.left = 0
-	} else if (code === 39){
+	} else if (code === 39) {
 		player.inputs.right = 0
 	}
 
-} 
+}
 
 /** Call this once on application startup */
 async function initApp() {
