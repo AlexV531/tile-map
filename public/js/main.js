@@ -1,7 +1,7 @@
 import {loadAssets} from "./assets.js"
 import TileMap from "./TileMap.js"
 import Player from "./Player.js"
-
+import * as logger from "./logger.js"
 /** @type {HTMLCanvasElement} */
 const canvas = document.querySelector('canvas.main-canvas')
 /** Drawing Context */
@@ -102,6 +102,8 @@ function update() {
 	const deltaT = curT - prevT
 
 	player.update(deltaT)
+	const tileID = tileMap.idAtPosition(player.position.x, player.position.y)
+	logger.msg("tileID = " + tileID)
 
 	prevT = curT
 	render()
