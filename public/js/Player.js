@@ -4,11 +4,13 @@ const NUMCELLS = 4
 
 export default class Player {
 
-	constructor(image) {
+	constructor(image, position) {
 
 		this.image = image
-		this.position = {x:0, y:0}
+
+		this.position = {x:position.x, y:position.y}
 		this.velocity = {x:0, y:0}
+		this.size = {x:1, y:FRAME.height/FRAME.width}
 		this.time = 0
 		this.inputs = {
 			left:0, right:0, up:0, down:0
@@ -57,9 +59,9 @@ export default class Player {
 			// Compute animation cell when character is moving
 			animationCell = Math.floor(this.time / 250) % NUMCELLS
 		}
-		context.drawImage(
-			this.image, animationCell*FRAME.width, animationRow*FRAME.height, FRAME.width, FRAME.height,
-			this.position.x, this.position.y, 1, FRAME.height/FRAME.width
+		context.drawImage(this.image,
+			animationCell*FRAME.width, animationRow*FRAME.height, FRAME.width, FRAME.height,
+			this.position.x - this.size.x / 2, this.position.y - this.size.y / 2, this.size.x, this.size.y
 		)
 	}
 

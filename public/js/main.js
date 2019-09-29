@@ -71,7 +71,7 @@ async function initApp() {
 	const assets = await loadAssets()
 	tileMap = new TileMap(1, assets.maps[0], assets.images)
 	spriteSheet = assets.spriteSheet
-	player = new Player(spriteSheet)
+	player = new Player(spriteSheet, {x:1, y:1})
 }
 
 /** Render the scene */
@@ -102,6 +102,17 @@ function update() {
 	const deltaT = curT - prevT
 
 	player.update(deltaT)
+	// Check that player stays inside the map
+	if(player.position.x < 0 + player.size.x / 2) {
+		player.position.x = 0 + player.size.x / 2
+	} else if(player.position.x > tileMap.map.cols * tileMap.tileSize - player.size.x / 2) {
+		player.position.x = tileMap.map.cols * tileMap.tileSize - player.size.x / 2
+	}
+	if(player.position.y < 0 + player.size.y / 2) {
+		player.position.y = 0 + player.size.y / 2
+	} else if(player.position.y > tileMap.map.rows * tileMap.tileSize - player.size.y / 2) {
+		player.position.y = tileMap.map.rows * tileMap.tileSize - player.size.y / 2
+	}
 	const tileID = tileMap.idAtPosition(player.position.x, player.position.y)
 	logger.msg("tileID = " + tileID)
 
