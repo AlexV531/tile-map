@@ -18,4 +18,16 @@ export default class TileMap {
 			}
 		}
 	}
+
+	idAtPosition(x, y) {
+		if(x < 0 || x > this.tileSize * this.map.rows) {
+			return undefined
+		}
+		if(y < 0 || y > this.tileSize * this.map.cols) {
+			return undefined
+		}
+		const xIndex = Math.floor(x / this.tileSize)
+		const yIndex = Math.floor(y / this.tileSize)
+		return this.map.data[xIndex+yIndex*this.map.rows]
+	}
 }

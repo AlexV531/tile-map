@@ -100,7 +100,6 @@ function render() {
 function update() {
 	const curT = Date.now()
 	const deltaT = curT - prevT
-	const fT = deltaT/1000
 
 	player.update(deltaT)
 

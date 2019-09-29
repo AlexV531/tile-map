@@ -37,7 +37,7 @@ function parseMap(raw) {
 
 /** @returns {Promise<HTMLImageElement>} */
 function loadImage(url) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		const image = new Image()
 		image.onload = () =>{
 			resolve(image)
